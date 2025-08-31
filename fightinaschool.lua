@@ -5,6 +5,7 @@ local rootPart = character:FindFirstChild("HumanoidRootPart")
 local uis = game:GetService("UserInputService")
 local enabled = false
 local CoreGui = game:GetService("StarterGui")
+local TweenService = game:GetService("TweenService")
 
 local Live = workspace:FindFirstChild("Live")
 
@@ -28,8 +29,6 @@ LocalPlayer.CharacterAdded:Connect(function(char)
     task.wait(1)
     hookUpdateStruggle()
 end)
-
-
 
 local function notify(title, desc)
     CoreGui:SetCore("SendNotification", {Title = title, Text = desc})
@@ -139,7 +138,6 @@ uis.InputBegan:Connect(function(key, processedevent)
     end
 end)
 
-
 task.spawn(function()
     local playerGui = LocalPlayer:WaitForChild("PlayerGui")
     local list = playerGui:WaitForChild("Main"):WaitForChild("Chat").Main.Core.CanvasGroup.List
@@ -170,6 +168,20 @@ task.spawn(function()
                             notify("WHITELIST REMOVE","Removed player from whitelist: "..v.DisplayName)
                         else
                             notify("WHITELIST INFO","Player is not whitelisted: "..v.DisplayName)
+                        end
+                    elseif msg:find("/tpto") then
+                        local targetPos = v.Character.PrimaryPart.Position
+                        local tweenInfo = TweenInfo.new(3)
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            if v:IsA("BasePart") then
+                                local tween = TweenService:Create(
+                                    v,
+                                    TweenInfo.new(6, Enum.EasingStyle.Linear),
+                                    {CFrame = CFrame.new(targetPos)}
+                                )
+                                tween:Play()
+                                notify("TELEPORT INFO","(MAY LAG BACK ) TELEPORTING TO : "..v.DisplayName)
+                            end
                         end
                     end
                 end
