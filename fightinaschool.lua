@@ -172,15 +172,16 @@ task.spawn(function()
                     elseif msg:find("/tpto") then
                         local targetPos = v.Character.PrimaryPart.Position
                         local tweenInfo = TweenInfo.new(3)
-                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                            if v:IsA("BasePart") then
+                        for i, e in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            if e:IsA("BasePart") then
                                 local tween = TweenService:Create(
-                                    v,
+                                    e,
                                     TweenInfo.new(6, Enum.EasingStyle.Linear),
                                     {CFrame = CFrame.new(targetPos)}
                                 )
                                 tween:Play()
-                                notify("TELEPORT INFO","(MAY LAG BACK ) TELEPORTING TO : "..v.DisplayName)
+                                notify("TELEPORT INFO",("TELEPORTING TO : "..v.DisplayName))
+                                return
                             end
                         end
                     end
