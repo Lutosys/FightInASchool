@@ -26,7 +26,7 @@ end
 hookUpdateStruggle()
 
 LocalPlayer.CharacterAdded:Connect(function(char)
-    task.wait(1)
+    task.wait(2.5)
     hookUpdateStruggle()
 end)
 
