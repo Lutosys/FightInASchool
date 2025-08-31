@@ -174,14 +174,15 @@ task.spawn(function()
                         local tweenInfo = TweenInfo.new(3)
                         for i, e in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                             if e:IsA("BasePart") then
-                                local tween = TweenService:Create(
-                                    e,
-                                    TweenInfo.new(6, Enum.EasingStyle.Linear),
-                                    {CFrame = CFrame.new(targetPos)}
-                                )
-                                tween:Play()
+                                task.spawn(function
+                                    local tween = TweenService:Create(
+                                        e,
+                                        TweenInfo.new(6, Enum.EasingStyle.Linear),
+                                        {CFrame = CFrame.new(targetPos)}
+                                    )
+                                    tween:Play()
+                                end)
                                 notify("TELEPORT INFO",("TELEPORTING TO : "..v.DisplayName))
-                                return
                             end
                         end
                     end
