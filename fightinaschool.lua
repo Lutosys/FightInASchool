@@ -11,28 +11,33 @@ local Live = workspace:FindFirstChild("Live")
 
 local enabled = false
 local whitelistedPlayers = {}
+local killAuraLoop
 
-local function hookUpdateStruggle()
-    for i, v in pairs(getgc(true)) do
+local function notify(title, desc)
+    CoreGui:SetCore("SendNotification", {Title = title, Text = desc})
+end
+
+local function hookAllUpdateStruggle()
+    local count = 0
+    for _, v in pairs(getgc(true)) do
         if type(v) == "function" then
-            local info = debug.getinfo(v)
+            local info = debug.getinfo(v, "nS")
             if info and info.name == "UpdateStruggle" then
                 hookfunction(v, function() end)
+                count += 1
             end
         end
     end
 end
 
-hookUpdateStruggle()
+task.spawn(hookAllUpdateStruggle)
 
 LocalPlayer.CharacterAdded:Connect(function(char)
-    task.wait(2.5)
-    hookUpdateStruggle()
+    char:WaitForChild("Core")
+    task.wait(0.50)
+    hookAllUpdateStruggle()
 end)
 
-local function notify(title, desc)
-    CoreGui:SetCore("SendNotification", {Title = title, Text = desc})
-end
 
 notify("WELCOME TO THE SCRIPT", "PRESS V FOR KILLAURA")
 
@@ -99,7 +104,6 @@ local function attack(user)
     end)
 end
 
-local killAuraLoop
 uis.InputBegan:Connect(function(key, processedevent)
     if key.KeyCode == Enum.KeyCode.V and not processedevent then
         enabled = not enabled
