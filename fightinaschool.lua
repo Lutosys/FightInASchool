@@ -1,8 +1,8 @@
-local key = "7656834967439"
+--[[local key = "7656834967439"
 
 if getgenv().EnteredKey ~= key then
     return
-end
+end--]]
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -305,4 +305,5 @@ task.spawn(function()
             end
         end)
     end)
+
 end)
