@@ -47,8 +47,9 @@ end
 task.spawn(hookAllUpdateStruggle)
 
 LocalPlayer.CharacterAdded:Connect(function(char)
-    hookAllUpdateStruggle()
     char:WaitForChild("Core")
+    hookAllUpdateStruggle()
+    task.wait(0.50)
     hookAllUpdateStruggle()
 end)
 
