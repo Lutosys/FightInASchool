@@ -32,12 +32,12 @@ local function notify(title, desc)
 end
 
 local function hookAllUpdateStruggle()
-    for _, v in pairs(getgc(true)) do
+    local gc = getgc(true) 
+    for _, v in ipairs(gc) do
         if type(v) == "function" then
-            task.wait(0.01)
             local info = debug.getinfo(v, "nS")
             if info and info.name == "UpdateStruggle" then
-                hookfunction(v, function() end)
+                pcall(function() hookfunction(v, function() end) end)
             end
         end
     end
@@ -47,11 +47,12 @@ task.spawn(hookAllUpdateStruggle)
 
 LocalPlayer.CharacterAdded:Connect(function(char)
     char:WaitForChild("Core")
-    hookAllUpdateStruggle()
-    task.wait(0.50)
-    hookAllUpdateStruggle()
+    task.spawn(function()
+        hookAllUpdateStruggle()
+        task.wait(0.5)
+        hookAllUpdateStruggle()
+    end)
 end)
-
 
 notify("WELCOME TO THE SCRIPT", "PRESS V FOR KILLAURA")
 
