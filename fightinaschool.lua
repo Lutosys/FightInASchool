@@ -32,13 +32,12 @@ local function notify(title, desc)
 end
 
 local function hookAllUpdateStruggle()
-    local count = 0
     for _, v in pairs(getgc(true)) do
         if type(v) == "function" then
+            task.wait(0.01)
             local info = debug.getinfo(v, "nS")
             if info and info.name == "UpdateStruggle" then
                 hookfunction(v, function() end)
-                count += 1
             end
         end
     end
